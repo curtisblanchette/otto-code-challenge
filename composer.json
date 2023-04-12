@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Otto\\": "src/"
+            "Otto\\": ["src/", "public/"]
         }
     },
     "require-dev": {

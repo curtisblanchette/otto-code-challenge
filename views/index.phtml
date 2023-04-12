@@ -1,22 +1,50 @@
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Director Name</th>
-            <th>Business Name</th>
-            <th>Business Address</th>
-            <th>Business Registration #</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach($records as $record): ?>
-            <tr>
-                <td><?= $record['id'] ?></td>
-                <td><?= $record['first_name'] . ' ' . $record['last_name'] ?></td>
-                <td><?= $record['name'] ?></td>
-                <td><?= $record['registered_address'] ?></td>
-                <td><?= $record['registration_number'] ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+<html lang="html">
+<head>
+	<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet"/>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+			integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+			crossorigin="anonymous"></script>
+	<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+</head>
+</html>
+<body>
+<div class="container">
+	<table id="example" class="display">
+		<thead>
+		<tr>
+			<th>Id</th>
+			<th>Director Name</th>
+			<th>Business Name</th>
+			<th>Business Address</th>
+			<th>Business Registration #</th>
+		</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+</body>
+
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      url: "getRecords.php",
+      type:"GET",
+      success:function(res){
+        $('#example').DataTable({
+          processing: true,
+          data: JSON.parse(res),
+          columns: [
+            {data: 'id'},
+            {data: 'first_name', render: (data, type, row) => {
+				return `${data} ${row.last_name}`;
+            }},
+            {data: 'name'},
+            {data: 'registered_address'},
+            {data: 'registration_number'}
+          ]
+        });
+      }
+    });
+  });
+</script>
